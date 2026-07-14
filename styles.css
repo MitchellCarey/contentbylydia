@@ -23,9 +23,13 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   color: var(--bone);
   background: var(--ink);
@@ -34,6 +38,13 @@ body {
   line-height: 1.5;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
 }
 
 body.menu-open {
@@ -212,6 +223,10 @@ select:focus-visible {
   padding: 0.65rem 1rem;
 }
 
+.mobile-sticky-cta {
+  display: none;
+}
+
 .hero {
   min-height: calc(100vh - 7.25rem);
   padding: clamp(2rem, 4vw, 4.5rem) var(--page-pad) 0;
@@ -363,9 +378,10 @@ h3 {
 .image-caption {
   position: absolute;
   z-index: 3;
-  left: 1.25rem;
+  right: 1.25rem;
   bottom: 1rem;
   margin: 0;
+  text-align: right;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1352,6 +1368,13 @@ h3 {
     font-size: 0.52rem;
   }
 
+  .image-caption {
+    right: 0.8rem;
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
   .chrome-stamp {
     right: -0.6rem;
     font-size: 0.52rem;
@@ -1536,6 +1559,37 @@ h3 {
     height: 4.25rem;
   }
 
+  .mobile-sticky-cta {
+    position: fixed;
+    z-index: 45;
+    right: var(--page-pad);
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    left: var(--page-pad);
+    min-height: 3.45rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    color: var(--ink);
+    background: linear-gradient(110deg, #8b6b30, var(--gold-pale) 48%, #80642f);
+    border: 1px solid rgba(240, 215, 150, 0.7);
+    box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+  }
+
+  .mobile-sticky-cta.is-hidden,
+  .menu-open .mobile-sticky-cta {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(0.75rem);
+  }
+
   .brand-mark {
     width: 2rem;
   }
@@ -1568,6 +1622,17 @@ h3 {
   .hero-visual {
     width: 92%;
     padding: 0.6rem 0.6rem 2.3rem;
+  }
+
+  .image-caption {
+    top: 0.8rem;
+    right: auto;
+    bottom: auto;
+    left: 0.8rem;
+    text-align: left;
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 
   .hero-stat {
@@ -1607,6 +1672,14 @@ h3 {
   .waitlist h2,
   .faq h2 {
     font-size: clamp(2.4rem, 12vw, 4.2rem);
+  }
+
+  .split-heading > * {
+    min-width: 0;
+  }
+
+  .split-heading h2 {
+    font-size: clamp(2.25rem, 10vw, 3.7rem);
   }
 
   .shift-head,
@@ -1691,6 +1764,12 @@ h3 {
 
   .footer-bottom {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 360px) {
+  .split-heading h2 {
+    font-size: clamp(1.85rem, 9vw, 3rem);
   }
 }
 

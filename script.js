@@ -2,6 +2,8 @@ const header = document.querySelector("[data-header]");
 const menuButton = document.querySelector(".menu-toggle");
 const navigation = document.querySelector(".site-nav");
 const navigationLinks = navigation.querySelectorAll("a");
+const mobileCta = document.querySelector(".mobile-sticky-cta");
+const waitlistSection = document.querySelector("#waitlist");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const setMenu = (open) => {
@@ -23,6 +25,18 @@ window.addEventListener(
   () => header.classList.toggle("is-scrolled", window.scrollY > 24),
   { passive: true }
 );
+
+if (mobileCta && waitlistSection && "IntersectionObserver" in window) {
+  const waitlistObserver = new IntersectionObserver(
+    ([entry]) => {
+      const hasReachedWaitlist = entry.isIntersecting || entry.boundingClientRect.top < 0;
+      mobileCta.classList.toggle("is-hidden", hasReachedWaitlist);
+    },
+    { threshold: 0.08 }
+  );
+
+  waitlistObserver.observe(waitlistSection);
+}
 
 const revealItems = document.querySelectorAll(".reveal");
 
